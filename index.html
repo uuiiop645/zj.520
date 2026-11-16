@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>满心 · 都是你</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fff5f9 0%, #ffeef4 100%);
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+            color: #3a1e2b;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 漂浮爱心粒子背景 */
+        .heart-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            animation: floatUp 16s infinite linear;
+            user-select: none;
+            will-change: transform;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(-20vh) rotate(360deg) scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        /* 主容器 */
+        .love-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 28px 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* 顶部 */
+        .love-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 8px 0 32px;
+            border-bottom: 2px solid rgba(255, 160, 190, 0.25);
+            margin-bottom: 36px;
+        }
+
+        .love-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #c44569;
+            text-shadow: 0 2px 10px rgba(255, 120, 160, 0.3);
+        }
+
+        .love-logo .heart-icon {
+            font-size: 2.2rem;
+            animation: pulse 1.8s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 6px rgba(255, 90, 130, 0.6));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.18); }
+            100% { transform: scale(1); }
+        }
+
+        .love-tagline {
+            font-size: 1.05rem;
+            color: #b05c7c;
+            background: rgba(255, 220, 235, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 8px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 180, 210, 0.8);
+            box-shadow: 0 8px 18px -8px rgba(200, 100, 140, 0.2);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* 主视觉 */
+        .love-hero {
+            text-align: center;
+            padding: 12px 0 40px;
+        }
+
+        .love-hero h1 {
+            font-size: clamp(2.6rem, 9vw, 5.2rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: #b3416b;
+            text-shadow: 0 4px 20px rgba(255, 120, 160, 0.4);
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 6px 16px;
+        }
+
+        .love-hero h1 .word {
+            display: inline-block;
+            animation: floatWord 3.2s ease-in-out infinite;
+        }
+
+        .love-hero h1 .word:nth-child(2) { animation-delay: 0.2s; }
+        .love-hero h1 .word:nth-child(3) { animation-delay: 0.4s; }
+        .love-hero h1 .word:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes floatWord {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .love-hero .sub-love {
+            font-size: 1.5rem;
+            color: #b05c7c;
+            font-weight: 400;
+            letter-spacing: 4px;
+            opacity: 0.85;
+            margin-top: 8px;
+        }
+
+        /* 网格 */
+        .love-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            margin: 40px 0 50px;
+        }
+
+        .love-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 24px -10px rgba(200, 100, 140, 0.25);
+            padding: 24px 12px;
+            text-align: center;
+            transition: all 0.35s cubic-bezier(0.2, 0.8, 0.4, 1);
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 140px;
+            color: #a1325a;
+            font-weight: 500;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-card::before {
+            content: "❤";
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            font-size: 1.6rem;
+            opacity: 0.2;
+            transform: rotate(15deg);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .love-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 240, 246, 0.9);
+            border-color: rgba(255, 140, 180, 0.7);
+            box-shadow: 0 30px 40px -18px rgba(220, 80, 130, 0.4);
+        }
+
+        .love-card:hover::before {
+            transform: rotate(0deg) scale(1.4);
+            opacity: 0.45;
+        }
+
+        .love-card .big-text {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #b02f5e;
+            line-height: 1.2;
+        }
+
+        .love-card .small-text {
+            font-size: 0.9rem;
+            color: #b05c7c;
+            opacity: 0.85;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .love-card .heart-emoji {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 2px 6px rgba(255, 80, 130, 0.4));
+        }
+
+        /* 告白区域 */
+        .confession-box {
+            background: rgba(255, 245, 250, 0.8);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            border: 1.5px solid rgba(255, 200, 220, 0.9);
+            padding: 48px 32px;
+            text-align: center;
+            margin: 20px 0 50px;
+            box-shadow: 0 30px 50px -30px rgba(200, 100, 140, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confession-box::after {
+            content: "❤";
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            font-size: 160px;
+            opacity: 0.08;
+            transform: rotate(-10deg);
+            pointer-events: none;
+            color: #ff6b9d;
+        }
+
+        .confession-box .big-words {
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #c44569, #e06b8a, #f08caa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        .confession-box .love-note {
+            font-size: 1.3rem;
+            color: #7a3e55;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-weight: 400;
+            padding: 0 10px;
+        }
+
+        .love-note .highlight {
+            background: rgba(255, 200, 215, 0.6);
+            padding: 4px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            font-weight: 600;
+            color: #b02f5e;
+            margin: 4px 2px;
+        }
+
+        /* 底部 */
+        .love-footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 28px 0 12px;
+            border-top: 2px dashed rgba(255, 160, 190, 0.35);
+            color: #b05c7c;
+            font-size: 1.05rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .love-footer .footer-hearts {
+            font-size: 1.6rem;
+            letter-spacing: 6px;
+            opacity: 0.8;
+        }
+
+        .love-footer .small-note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .love-wrapper { padding: 18px 16px; }
+            .love-header { flex-direction: column; text-align: center; padding-bottom: 22px; }
+            .love-logo { font-size: 1.6rem; }
+            .love-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; }
+            .love-card { padding: 18px 8px; min-height: 120px; font-size: 1rem; }
+            .love-card .big-text { font-size: 1.4rem; }
+            .confession-box { padding: 32px 18px; border-radius: 36px; }
+            .confession-box .love-note { font-size: 1.1rem; }
+        }
+
+        ::selection {
+            background: rgba(255, 140, 180, 0.4);
+            color: #3a1e2b;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div class="love-wrapper">
+        <header class="love-header">
+            <div class="love-logo">
+                <span class="heart-icon">❤</span>
+                <span>满心 · 都是你</span>
+            </div>
+            <div class="love-tagline">
+                ♡ 我爱你，从此刻到永远 ♡
+            </div>
+        </header>
+
+        <section class="love-hero">
+            <h1>
+                <span class="word">我</span>
+                <span class="word">爱</span>
+                <span class="word">你</span>
+                <span class="word" style="font-size:1.1em; color:#d45d87;">♡</span>
+            </h1>
+            <div class="sub-love">一万次 · 一百万次 · 无数个我爱你</div>
+        </section>
+
+        <div class="love-grid" id="loveGrid"></div>
+
+        <div class="confession-box">
+            <div class="big-words">
+                我爱你<br>在每一个清晨与日暮
+            </div>
+            <div class="love-note">
+                如果要把爱意写成诗，<br>
+                每一行都会是 <span class="highlight">我爱你</span>；
+                如果要把思念谱成曲，<br>
+                每一个音符都是 <span class="highlight">我爱你</span>。<br>
+                <span style="display:inline-block; margin-top:12px; font-size:1.5rem; color:#b02f5e;">❤ 我爱你，不止三千遍 ❤</span>
+            </div>
+        </div>
+
+        <footer class="love-footer">
+            <div class="footer-hearts">♥ ♥ ♥ ♥ ♥</div>
+            <div>你是我所有浪漫的源头</div>
+            <div class="small-note">© 2025 · 只为你存在的小站</div>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // 1. 漂浮爱心粒子
+            const heartBg = document.getElementById('heartBg');
+            const heartChars = ['❤', '♥', '💕', '💖', '💗', '💓', '🩷', '😍', '♡', '🌸'];
+            const particleCount = 38;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'heart-particle';
+                particle.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+                const left = Math.random() * 100;
+                const size = 16 + Math.random() * 28;
+                const duration = 14 + Math.random() * 18;
+                const delay = Math.random() * 20;
+                const opacity = 0.15 + Math.random() * 0.2;
+
+                particle.style.left = left + '%';
+                particle.style.fontSize = size + 'px';
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = delay + 's';
+                particle.style.opacity = opacity;
+                const hue = 330 + Math.random() * 30;
+                particle.style.color = `hsla(${hue}, 80%, 70%, ${opacity})`;
+
+                heartBg.appendChild(particle);
+            }
+
+            // 2. 卡片网格
+            const loveGrid = document.getElementById('loveGrid');
+            const cardCount = 34;
+
+            const messages = [
+                { big: '我爱你', small: '第一万零一次' },
+                { big: '我爱你', small: '在每一个瞬间' },
+                { big: '我爱你', small: '胜过昨日' },
+                { big: '我爱你', small: '如星辰般多' },
+                { big: '我爱你', small: '永远有效' },
+                { big: '我爱你', small: '♡ 无限循环' },
+                { big: '我爱你', small: '比永远多一天' },
+                { big: '我爱你', small: '每一句都是真心' },
+                { big: '我爱你', small: '时刻心动' },
+                { big: '我爱你', small: '像风走了八千里' },
+                { big: '我爱你', small: '不问归期' },
+                { big: '我爱你', small: '满眼都是你' },
+                { big: '我爱你', small: '♡ 仅此一人' },
+                { big: '我爱你', small: '这就是全部' },
+                { big: '我爱你', small: '不只今天' },
+                { big: '我爱你', small: '岁岁年年' },
+                { big: '我爱你', small: '心里全是你' },
+                { big: '我爱你', small: '偷偷地 大声地' },
+                { big: '我爱你', small: '每分每秒' },
+                { big: '我爱你', small: '独一无二' },
+                { big: '我爱你', small: '如初' },
+                { big: '我爱你', small: '♡ 命中注定' },
+                { big: '我爱你', small: '因为是你' },
+                { big: '我爱你', small: '所以是你' },
+                { big: '我爱你', small: '仅你可见' },
+                { big: '我爱你', small: '超级超级' },
+                { big: '我爱你', small: '宇宙无敌' },
+                { big: '我爱你', small: '♡ 永远偏爱你' },
+                { big: '我爱你', small: '不必怀疑' },
+                { big: '我爱你', small: '用尽全力' },
+                { big: '我爱你', small: '无声也热烈' },
+                { big: '我爱你', small: '全部给你' },
+                { big: '我爱你', small: '你听到了吗' },
+                { big: '我爱你', small: '再说一遍' },
+            ];
+
+            const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '🩷', '♥️', '💘', '💝', '♡'];
+
+            for (let i = 0; i < cardCount; i++) {
+                const card = document.createElement('div');
+                card.className = 'love-card';
+
+                const styleRand = Math.random();
+                const msg = messages[i % messages.length];
+
+                if (styleRand < 0.6) {
+                    const bigSpan = document.createElement('div');
+                    bigSpan.className = 'big-text';
+                    bigSpan.textContent = msg.big;
+
+                    const smallSpan = document.createElement('div');
+                    smallSpan.className = 'small-text';
+                    smallSpan.textContent = msg.small;
+
+                    card.appendChild(bigSpan);
+                    card.appendChild(smallSpan);
+                } else if (styleRand < 0.85) {
+                    const emojiSpan = document.createElement('div');
+                    emojiSpan.className = 'heart-emoji';
+                    emojiSpan.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+                    const bigSpan = document.createElement('div');
+                    bigSpan.className = 'big-text';
+                    bigSpan.style.fontSize = '1.4rem';
+                    bigSpan.textContent = msg.big;
+
+                    const smallSpan = document.createElement('div');
+                    smallSpan.className = 'small-text';
+                    smallSpan.textContent = msg.small;
+
+                    card.appendChild(emojiSpan);
+                    card.appendChild(bigSpan);
+                    card.appendChild(smallSpan);
+                } else {
+                    const bigSpan = document.createElement('div');
+                    bigSpan.className = 'big-text';
+                    bigSpan.style.fontSize = '1.9rem';
+                    bigSpan.textContent = msg.big;
+
+                    const emojiSpan = document.createElement('div');
+                    emojiSpan.className = 'heart-emoji';
+                    emojiSpan.style.fontSize = '1.2rem';
+                    emojiSpan.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+                    card.appendChild(bigSpan);
+                    card.appendChild(emojiSpan);
+                }
+
+                // 仅调整背景色，不内联 transform，保证悬停效果正常
+                if (i % 3 === 0) {
+                    card.style.background = 'rgba(255, 235, 245, 0.7)';
+                } else if (i % 5 === 0) {
+                    card.style.background = 'rgba(255, 245, 250, 0.8)';
+                }
+
+                loveGrid.appendChild(card);
+            }
+
+            console.log('%c❤ 我爱你 ❤', 'font-size: 24px; font-weight: bold; color: #ff6b9d;');
+        })();
+    </script>
+</body>
+</html>
